@@ -1,0 +1,70 @@
+<%- include ('partials/_header')%>
+
+<body>
+	<div class="tm-page-wrap mx-auto">
+		<div class="position-relative">
+
+			<%- include ('partials/_navigation')%>
+			<div class="tm-welcome-container tm-fixed-header tm-fixed-header-1">
+				<div class="text-center">
+					<p class="pt-5 px-3 tm-welcome-text tm-welcome-text-2 mb-1 text-white mx-auto">Background image can
+						be fixed. Content will simply slide over.</p>
+				</div>
+			</div>
+
+			<!-- Header image -->
+			<div id="tm-fixed-header-bg"></div>
+		</div>
+		<div class="container">
+			<div class="row pt-4 pb-5 ">
+				<div class="col-10">
+					<h2 class="mb-5 tm-text-primary text-center"><%=photo.title%></h2>
+					<center>
+						<div class="col-md-12 tm-catalog-item" style="width: 100%;">
+							<div class="position-relative tm-thumbnail-container" >
+								<img src="/img/tn-01.jpg" alt="Image" class="img-fluid tm-catalog-item-img" width="100%">
+								<a href="video-page.html" class="position-absolute tm-img-overlay">
+									<i class="fas fa-play tm-overlay-icon"></i>
+								</a>
+							</div>
+							<div class="p-3 tm-catalog-item-description">
+								<h3 class="tm-text-gray text-center tm-catalog-item-title"><%=photo.description%></h3>
+							</div>
+	
+						</div>
+					</center>
+					
+
+
+				</div>
+				<div class="col-2">
+					<a class="btn btn-primary" href="/photos/edit/<%= photo._id%>" style="display: block">edit</a>
+					<a href="/photos/<%= photo._id %>?_method=DELETE" class="btn btn-danger p-0 tm-btn-animate tm-btn-download tm-icon-download"
+						onclick="return confirm('ARE YOU SURE?')"><span>Delete </span></a>
+				</div>
+			</div>
+		</div>
+
+
+
+		<%- include ('partials/_footer')%>
+
+		<script src="/js/jquery-3.4.1.min.js"></script>
+		<script src="/js/bootstrap.min.js"></script>
+		<script>
+			$(document).ready(function () {
+				$('.tm-likes-box').click(function (e) {
+					e.preventDefault();
+					$(this).toggleClass('tm-liked');
+
+					if ($(this).hasClass('tm-liked')) {
+						$('#tm-likes-count').html('486 likes');
+					} else {
+						$('#tm-likes-count').html('485 likes');
+					}
+				});
+			});
+		</script>
+</body>
+
+</html>
