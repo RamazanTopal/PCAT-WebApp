@@ -7,6 +7,8 @@ const app = express();
 const fileUpload = require('express-fileupload');
 const Photo = require('./models/Photo')
 const fs = require('fs');
+const photoController = require('./controllers/photoControllers');
+const pageController = require('./controllers/pageController');
 //middleware
 app.use(fileUpload());
 app.use(methodOverride('_method',{
@@ -45,52 +47,16 @@ app.post('/photos', async (req, res) => {
 
 
 //router
-app.get('/', async (req, res) => {
-  const photo=await Photo.find({});
-
-  res.render("index",{
-    photo:photo
-  })
-})
-app.get('/about', (req, res) => {
-  res.render("about")
-})
-app.get('/add', (req, res) => {
-  res.render("add")
-})
-app.post("/photos", async (req, res) => {
-  await Photo.create(req.body)
-  res.render("add")
-})
-app.get("/photos/:id",async (req,res)=>{
-  const photo=await Photo.findById(req.params.id)
-  res.render("photo",{photo:photo})
-})
-app.get('/photos/edit/:id', async (req, res) => {
-  const photo = await Photo.findOne({ _id: req.params.id });
-  res.render('edit', {
-    photo,
-  });
-});
+app.get('/', photoController.getAllPhotos);
+app.get('/photos/:id', photoController.getPhoto);
+app.post('/photos', photoController.createPhoto);
+app.put('/photos/:id', photoController.updatePhoto);
+app.delete('/photos/:id', photoController.deletePhoto);
 
 
-app.put('/photos/:id', async (req, res) => {
-  const photo = await Photo.findOne({ _id: req.params.id });
-  photo.title = req.body.title
-  photo.description = req.body.description
-  photo.save()
-
-  res.redirect(`/photos/${req.params.id}`)
-});
-
-
-app.delete('/photos/:id', async (req, res) => {
-  const photo = await Photo.findOne({ _id: req.params.id });
-  let deletedImage = __dirname + '/public' + photo.image;
-  fs.unlinkSync(deletedImage);
-  await Photo.findByIdAndRemove(req.params.id);
-  res.redirect('/');
-});
+app.get('/about', pageController.getAboutPage);
+app.get('/add', pageController.getAddPage);
+app.get('/photos/edit/:id', pageController.getEditPage);
 
 
 const port = 3000;
