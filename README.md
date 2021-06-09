@@ -14,8 +14,8 @@ A beautifully designed Photo Blog app with CRUD functionality
     cd PCAT-WebApp
     ```
 ## Start
-    ```
+    
     npm start
-    ```
+    
  ## License
  MIT
